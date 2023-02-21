@@ -3,7 +3,6 @@ import "./signin.form.styles.scss";
 import { useState } from "react";
 import {
   signinWithGooglePopup,
-  createUserDocumentFromAuth,
   signinAuthUserWithEmailAndPassword,
 } from "../../routes/utils/firebase/firebase.util";
 

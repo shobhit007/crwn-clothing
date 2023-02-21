@@ -17,14 +17,14 @@ export const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const subscribe = onAuthUserStateChanged((user) => {
+    const unsubscribe = onAuthUserStateChanged((user) => {
       if (user) {
         createUserDocumentFromAuth(user);
       }
       setCurrentUser(user);
     });
 
-    return subscribe;
+    return unsubscribe;
   }, []);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
