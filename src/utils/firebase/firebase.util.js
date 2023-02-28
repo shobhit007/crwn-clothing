@@ -9,7 +9,16 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-import { doc, setDoc, getDoc, getFirestore } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  getFirestore,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDXn-9fT0X8rzR2kNwYmYpi7cHeE8ObRGw",
@@ -33,6 +42,39 @@ export const auth = getAuth();
 export const signinWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export const db = getFirestore();
+
+// store data to firestore
+export const createCategoriesAndDocuments = async (
+  collectionKey,
+  dataToSave
+) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
+
+  dataToSave.forEach((object) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    batch.set(docRef, object);
+  });
+
+  await batch.commit();
+  console.log("done");
+};
+
+// get data from firestore
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, "categories");
+  const q = query(collectionRef);
+
+  const querySnapshot = await getDocs(q);
+
+  const categoryMap = querySnapshot.docs.reduce((accmu, docSnapshot) => {
+    const { title, items } = docSnapshot.data();
+    accmu[title.toLowerCase()] = items;
+    return accmu;
+  }, {});
+
+  return categoryMap;
+};
 
 // save user info
 export const createUserDocumentFromAuth = async (userAuth) => {

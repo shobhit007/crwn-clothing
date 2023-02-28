@@ -4,10 +4,10 @@ import { useState } from "react";
 import {
   signinWithGooglePopup,
   signinAuthUserWithEmailAndPassword,
-} from "../../routes/utils/firebase/firebase.util";
+} from "../../utils/firebase/firebase.util";
 
 import FormInput from "../form-input/form-input.component";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 const defaultFormFields = {
   email: "",
@@ -76,7 +76,11 @@ const SigninForm = () => {
 
         <div className="buttons-container">
           <Button type="submit">Sign In</Button>
-          <Button buttonType="google" onClick={signinWithGoogle} type="button">
+          <Button
+            buttonType={BUTTON_TYPE_CLASSES.google}
+            onClick={signinWithGoogle}
+            type="button"
+          >
             Sign in with Google
           </Button>
         </div>
