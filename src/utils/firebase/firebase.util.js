@@ -67,13 +67,7 @@ export const getCategoriesAndDocuments = async () => {
 
   const querySnapshot = await getDocs(q);
 
-  const categoryMap = querySnapshot.docs.reduce((accmu, docSnapshot) => {
-    const { title, items } = docSnapshot.data();
-    accmu[title.toLowerCase()] = items;
-    return accmu;
-  }, {});
-
-  return categoryMap;
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 };
 
 // save user info
