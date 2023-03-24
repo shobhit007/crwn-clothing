@@ -16,3 +16,8 @@ export const selectCategoriesMap = createSelector(
       return accmu;
     }, {})
 );
+
+export const selectCategoriesIsLoading = createSelector(
+  [selectCategoryReducer],
+  (categories) => categories.isLoading
+);
